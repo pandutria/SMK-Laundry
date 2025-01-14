@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SMK_LAUNDRY" Class="DatabaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-DENT5RFJ;Initial Catalog=SMK_LAUNDRY;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="SMK_Laundry.Properties.Settings" SettingsPropertyName="SMK_LAUNDRYConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Category_Service" Member="Services" ThisKey="Id" OtherKey="IdCategory" Type="Service" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customers">
+    <Type Name="Customer">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="Customer_HeaderDeposit" Member="HeaderDeposits" ThisKey="Id" OtherKey="IdCustomer" Type="HeaderDeposit" />
+      <Association Name="Customer_PrepaidPackage" Member="PrepaidPackages" ThisKey="Id" OtherKey="IdCustomer" Type="PrepaidPackage" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employees">
+    <Type Name="Employee">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="IdJob" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Salary" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Association Name="Employee_HeaderDeposit" Member="HeaderDeposits" ThisKey="Id" OtherKey="IdEmployee" Type="HeaderDeposit" />
+      <Association Name="Job_Employee" Member="Job" ThisKey="IdJob" OtherKey="Id" Type="Job" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HeaderDeposit" Member="HeaderDeposits">
+    <Type Name="HeaderDeposit">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdCustomer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdEmployee" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TransactionDatetime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CompleteEstimationDatetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="HeaderDeposit_DetailDeposit" Member="DetailDeposits" ThisKey="Id" OtherKey="IdDeposit" Type="DetailDeposit" />
+      <Association Name="Customer_HeaderDeposit" Member="Customer" ThisKey="IdCustomer" OtherKey="Id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Employee_HeaderDeposit" Member="Employee" ThisKey="IdEmployee" OtherKey="Id" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Job" Member="Jobs">
+    <Type Name="Job">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Job_Employee" Member="Employees" ThisKey="Id" OtherKey="IdJob" Type="Employee" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Package" Member="Packages">
+    <Type Name="Package">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdService" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalUnit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Package_PrepaidPackage" Member="PrepaidPackages" ThisKey="Id" OtherKey="IdPackage" Type="PrepaidPackage" />
+      <Association Name="Service_Package" Member="Service" ThisKey="IdService" OtherKey="Id" Type="Service" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PrepaidPackage" Member="PrepaidPackages">
+    <Type Name="PrepaidPackage">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdCustomer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdPackage" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CompletedDatetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="PrepaidPackage_DetailDeposit" Member="DetailDeposits" ThisKey="Id" OtherKey="IdPrepaidPackage" Type="DetailDeposit" />
+      <Association Name="Customer_PrepaidPackage" Member="Customer" ThisKey="IdCustomer" OtherKey="Id" Type="Customer" IsForeignKey="true" />
+      <Association Name="Package_PrepaidPackage" Member="Package" ThisKey="IdPackage" OtherKey="Id" Type="Package" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Service" Member="Services">
+    <Type Name="Service">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IdCategory" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdUnit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PriceUnit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EstimationDuration" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Service_Package" Member="Packages" ThisKey="Id" OtherKey="IdService" Type="Package" />
+      <Association Name="Service_DetailDeposit" Member="DetailDeposits" ThisKey="Id" OtherKey="IdService" Type="DetailDeposit" />
+      <Association Name="Category_Service" Member="Category" ThisKey="IdCategory" OtherKey="Id" Type="Category" IsForeignKey="true" />
+      <Association Name="Unit_Service" Member="Unit" ThisKey="IdUnit" OtherKey="Id" Type="Unit" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Unit" Member="Units">
+    <Type Name="Unit">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Unit_Service" Member="Services" ThisKey="Id" OtherKey="IdUnit" Type="Service" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DetailDeposit" Member="DetailDeposits">
+    <Type Name="DetailDeposit">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdDeposit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdService" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdPrepaidPackage" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PriceUnit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalUnit" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="CompletedDatetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="HeaderDeposit_DetailDeposit" Member="HeaderDeposit" ThisKey="IdDeposit" OtherKey="Id" Type="HeaderDeposit" IsForeignKey="true" />
+      <Association Name="PrepaidPackage_DetailDeposit" Member="PrepaidPackage" ThisKey="IdPrepaidPackage" OtherKey="Id" Type="PrepaidPackage" IsForeignKey="true" />
+      <Association Name="Service_DetailDeposit" Member="Service" ThisKey="IdService" OtherKey="Id" Type="Service" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
