@@ -26,7 +26,6 @@ namespace SMK_Laundry
             var query = db.DetailDeposits.Where(x => x.HeaderDeposit.Customer.Name.Contains(tbSearch.Text) || x.HeaderDeposit.Employee.Name.Contains(tbSearch.Text) || x.HeaderDeposit.TransactionDatetime.ToString().Contains(tbSearch.Text))
                 .Select(x => new { ID = x.HeaderDeposit.Id, CustomerId = x.HeaderDeposit.IdCustomer, CustomerName = x.HeaderDeposit.Customer.Name, EmployeeName = x.HeaderDeposit.Employee.Name, x.HeaderDeposit.TransactionDatetime, x.HeaderDeposit.CompleteEstimationDatetime, 
                 ServiceName = x.Service.Name, PrepaidPackageId = x.IdPrepaidPackage, x.PriceUnit, x.TotalUnit, x.CompletedDatetime, DetailId = x.Id });
-
             
             dgvHeaderData.DataSource = query;
 
